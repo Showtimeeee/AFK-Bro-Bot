@@ -12,7 +12,7 @@ class Actions:
         self.text_file_opened = False
         self._init_log_file()
         self._create_text_file()
-        # Убрано автоматическое открытие файла - будет открываться только при первом действии
+        # открытие файла - будет открываться только при первом действии
     
     def _init_log_file(self):
         """Инициализация файла логов"""
@@ -40,8 +40,6 @@ class Actions:
                 
                 # Открываем блокнот
                 subprocess.Popen(['notepad.exe', self.config.TEXT_FILE_PATH])
-                
-                # Даем время на открытие
                 time.sleep(3)
                 
                 self.text_file_opened = True
@@ -65,16 +63,15 @@ class Actions:
     def text_file_action(self):
         """Работа с текстовым файлом - запись и стирание"""
         try:
-            # Убедимся что файл открыт (теперь открывается только здесь)
             if not self.text_file_opened:
                 success = self._open_text_file()
                 if not success:
                     return False, "❌ Не удалось открыть текстовый файл"
                 time.sleep(2)
             
-            # Выбираем случайное сообщение
+            # случайное сообщение
             message = random.choice(self.config.TEXT_MESSAGES)
-            # Полный формат с датой и временем
+            # формат с датой и временем
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             full_message = f"{timestamp}  {message}"
             
@@ -92,7 +89,7 @@ class Actions:
             pyautogui.write(full_message, interval=0.05)
             time.sleep(1)
             
-            # Иногда стираем часть текста (40% вероятности)
+            # Иногда стираем часть текста 40% вероятности)
             if random.random() < 0.4:
                 print("🔙 Стираю часть текста...")
                 # Стираем несколько символов
@@ -101,7 +98,7 @@ class Actions:
                     pyautogui.press('backspace')
                     time.sleep(0.1)
                 
-                # Печатаем исправление
+                # Печатаем испраление
                 corrections = [" [исправлено]", " [updated]", " [fixed]", " [revised]"]
                 correction = random.choice(corrections)
                 pyautogui.write(correction, interval=0.05)
@@ -121,4 +118,5 @@ class Actions:
     
     def get_random_action(self):
         """Всегда возвращает действие с текстовым файлом"""
+
         return self.text_file_action
