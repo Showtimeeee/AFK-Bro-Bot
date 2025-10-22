@@ -66,4 +66,19 @@ class Bot:
             print(f"\n📊 Выполнено действий: {self.action_count}")
         
         print("💾 Блокнот остался открытым - сохраните файл если нужно")
+
         print("👋 Бот остановлен")
+
+    def _do_action(self):
+        self.action_count += 1
+        action_func = self.actions.get_random_action()
+        
+        success, message = action_func()
+        
+        if success:
+            print(f"✅ Действие #{self.action_count}: {message}")
+        else:
+            print(f"❌ Действие #{self.action_count}: {message}")
+        
+        # Возвращаем сообщение для GUI
+        return success, message
